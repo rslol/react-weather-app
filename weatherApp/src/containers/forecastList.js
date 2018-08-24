@@ -3,6 +3,7 @@ import React, { Component } from "react";
 /* Step 4) import connect from react-redux (remember this is the glue between react and redux) */
 import { connect } from "react-redux";
 import Chart from "../components/chart";
+import GoogleMap from "../components/googleMap";
 
 class ForecastList extends Component {
   renderWeather(cityData) {
@@ -10,15 +11,18 @@ class ForecastList extends Component {
     const temp = cityData.list.map(data => data.main.temp);
     const humidity = cityData.list.map(data => data.main.humidity);
     const visibility = cityData.list.map(data => data.clouds.all);
+    const { lon, lat } = cityData.city.coord;
 
     return (
       /* Remember with adding a key, add it to the top level of the element and make it unique */
       <tr key={name}>
         {/* The reason why its cityData.city.name is because that is how the data is coming back
                 from the API */}
-        <td>{name}</td>
         <td>
-          <Chart data={temp} color="red" units="&#176;" />
+          <GoogleMap lon={lon} lat={lat} />
+        </td>
+        <td>
+          <Chart data={temp} color="red" />
         </td>
         <td>
           <Chart data={humidity} color="blue" />
